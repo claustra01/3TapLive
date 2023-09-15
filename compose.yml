@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
 
@@ -10,7 +10,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     container_name: tyranno-db
@@ -19,6 +20,11 @@ services:
       - "5432:5432"
     env_file:
       - ./server/.env.sample
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
 
   adminer:
     container_name: tyranno-adminer
@@ -26,4 +32,5 @@ services:
     ports:
       - 8888:8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
