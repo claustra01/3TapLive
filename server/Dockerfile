@@ -1,9 +1,9 @@
-FROM rust:slim-buster as build
+FROM rust:slim-buster
+RUN apt update && apt upgrade && apt install -y libpq-dev
 WORKDIR /opt
-COPY . .
-RUN cargo build --release
 
-FROM debian:buster-slim
+COPY . .
 EXPOSE 8080
-COPY --from=build /opt/target/release/hackz-tyranno /opt/
-ENTRYPOINT ["/opt/hackz-tyranno"]
+
+RUN cargo build --release
+ENTRYPOINT ["./target/release/hackz-tyranno"]
