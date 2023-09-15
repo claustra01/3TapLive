@@ -3,6 +3,7 @@ version: "3"
 services:
 
   server:
+    container_name: tyranno-server
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
       - db
 
   db:
+    container_name: tyranno-db
     image: postgres:14
     ports:
       - "5432:5432"
@@ -19,6 +21,7 @@ services:
       - ./server/.env.sample
 
   adminer:
+    container_name: tyranno-adminer
     image: adminer:latest
     ports:
       - 8888:8080
