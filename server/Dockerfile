@@ -1,5 +1,5 @@
 FROM rust:slim-buster
-RUN apt update && apt upgrade && apt install -y libpq-dev
+RUN apt update && apt upgrade && apt install -y libpq-dev default-libmysqlclient-dev libsqlite3-dev
 WORKDIR /opt
 
 COPY . .
