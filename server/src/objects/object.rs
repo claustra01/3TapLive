@@ -2,17 +2,17 @@ use async_graphql::SimpleObject;
 
 #[derive(SimpleObject)]
 pub struct Channel {
-    name: String, // uuid
-    token: String,
-    title: String,
-    owner_name: String, // display name
-    owner_icon: String, // image url
+    pub name: String, // uuid
+    pub token: String,
+    pub title: String,
+    pub owner_name: String, // display name
+    pub owner_icon: String, // image url
 }
 
 #[derive(SimpleObject)]
 pub struct Comment {
-    id: i32, // auto increment
-    body: String,
-    channel: String, // uuid
-    owner: String, // display name
+    pub id: i32, // auto increment
+    pub body: String,
+    pub channel: String, // uuid
+    pub owner: String, // display name
 }
