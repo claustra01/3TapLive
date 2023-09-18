@@ -2,41 +2,45 @@ use chrono::NaiveDateTime;
 use serde::Serialize;
 use diesel::prelude::{Queryable, Selectable, Insertable};
 
+use crate::schema::*;
+
 #[derive(Serialize, Queryable, Selectable, Debug, Clone)]
-#[diesel(table_name = "channels")]
+#[diesel(table_name = channels)]
 pub struct Channel {
-    name: String, // uuid
-    token: String,
-    title: String,
-    owner_name: String, // display name
-    owner_icon: String, // image url
-    created_at: NaiveDateTime,
-    updated_ad: NaiveDateTime,
+    pub name: String, // uuid
+    pub token: String,
+    pub title: String,
+    pub owner_name: String, // display name
+    pub owner_icon: String, // image url
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Insertable)]
+#[diesel(table_name = channels)]
 pub struct NewChannel<'a> {
-    name: &'a String, // uuid
-    token: &'a String,
-    title: &'a String,
-    owner_name: &'a String, // display name
-    owner_icon: &'a String, // image url
+    pub name: &'a String, // uuid
+    pub token: &'a String,
+    pub title: &'a String,
+    pub owner_name: &'a String, // display name
+    pub owner_icon: &'a String, // image url
 }
 
 #[derive(Serialize, Queryable, Selectable, Debug, Clone)]
-#[diesel(table_name = "comments")]
+#[diesel(table_name = comments)]
 pub struct Comment {
-    id: i32, // auto increment
-    body: String,
-    channel: String, // uuid
-    owner: String, // display name
-    created_at: NaiveDateTime,
-    updated_ad: NaiveDateTime,
+    pub id: i32, // auto increment
+    pub body: String,
+    pub channel: String, // uuid
+    pub owner: String, // display name
+    pub created_at: NaiveDateTime,
+    pub updated_at: NaiveDateTime,
 }
 
 #[derive(Insertable)]
-pub struct NewChannel<'a> {
-    body: &'a String,
-    channel: &'a String, // uuid
-    owner: &'a String, // display name
+#[diesel(table_name = comments)]
+pub struct NewComment<'a> {
+    pub body: &'a String,
+    pub channel: &'a String, // uuid
+    pub owner: &'a String, // display name
 }
