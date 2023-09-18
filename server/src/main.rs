@@ -5,6 +5,9 @@ use objects::{QuerySchema, query::Query, mutation::Mutation};
 
 mod objects;
 mod db;
+mod models;
+mod token;
+mod schema;
 
 async fn index(schema: web::Data<QuerySchema>, req: GraphQLRequest) -> GraphQLResponse {
   schema.execute(req.into_inner()).await.into()
@@ -18,14 +21,16 @@ async fn index_graphiql() -> Result<HttpResponse> {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+  // db connection pool
+  let pool: db::Pool = db::establish_connection();
 
-  // DB接続テスト: 後で消す
-  db::connection().expect("Failed to connect to database");
+  // schema setup
+  let schema = Schema::build(Query, Mutation, EmptySubscription)
+    .data(pool.clone())
+    .finish();
 
-  let schema = Schema::build(Query, Mutation, EmptySubscription).finish();
-
+  // run server
   println!("GraphiQL: http://localhost:8080");
-
   HttpServer::new(move || {
       App::new()
           .app_data(Data::new(schema.to_owned()))
