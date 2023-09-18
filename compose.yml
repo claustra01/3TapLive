@@ -20,6 +20,8 @@ services:
       - "5432:5432"
     env_file:
       - ./server/.env.sample
+    volumes:
+      - dbdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 2s
@@ -34,3 +36,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+volumes:
+  dbdata: null
