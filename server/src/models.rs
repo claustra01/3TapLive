@@ -1,11 +1,10 @@
 use chrono::NaiveDateTime;
-use async_graphql::SimpleObject;
 use serde::Serialize;
 use diesel::prelude::{Queryable, Selectable, Insertable};
 
-#[derive(SimpleObject, Serialize, Queryable, Selectable, Debug, Clone)]
+#[derive(Serialize, Queryable, Selectable, Debug, Clone)]
 #[diesel(table_name = "channels")]
-struct Channel {
+pub struct Channel {
     name: String, // uuid
     token: String,
     title: String,
@@ -16,7 +15,7 @@ struct Channel {
 }
 
 #[derive(Insertable)]
-struct NewChannel<'a> {
+pub struct NewChannel<'a> {
     name: &'a String, // uuid
     token: &'a String,
     title: &'a String,
@@ -24,9 +23,9 @@ struct NewChannel<'a> {
     owner_icon: &'a String, // image url
 }
 
-#[derive(SimpleObject, Serialize, Queryable, Selectable, Debug, Clone)]
+#[derive(Serialize, Queryable, Selectable, Debug, Clone)]
 #[diesel(table_name = "comments")]
-struct Comment {
+pub struct Comment {
     id: i32, // auto increment
     body: String,
     channel: String, // uuid
@@ -36,7 +35,7 @@ struct Comment {
 }
 
 #[derive(Insertable)]
-struct NewChannel<'a> {
+pub struct NewChannel<'a> {
     body: &'a String,
     channel: &'a String, // uuid
     owner: &'a String, // display name
