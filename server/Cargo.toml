@@ -10,7 +10,8 @@ actix-web = "4.3.1"
 anyhow = "1.0.75"
 async-graphql = "6.0.4"
 async-graphql-actix-web = "6.0.4"
-chrono = "0.4.31"
-diesel = {version = "2.1.1", features = ["postgres"]}
+chrono = {version = "0.4.31", features = ["serde"]}
+diesel = {version = "2.1.1", features = ["postgres", "r2d2"]}
 dotenv = "0.15.0"
 serde = "1.0.188"
+uuid = {version = "1.4.1", features = ["v4"]}

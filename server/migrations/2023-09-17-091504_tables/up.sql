@@ -4,7 +4,8 @@ CREATE TABLE "channels" (
   "name" varchar(100) PRIMARY KEY,
   "token" varchar(400) NOT NULL,
   "title" varchar(100) NOT NULL,
-  "owner" varchar(100) NOT NULL,
+  "owner_name" varchar(100) NOT NULL,
+  "owner_icon" varchar(400) NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT (now()),
   "updated_at" timestamp NOT NULL DEFAULT (now())
 );

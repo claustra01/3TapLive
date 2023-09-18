@@ -9,7 +9,9 @@ diesel::table! {
       #[max_length = 100]
       title -> Varchar,
       #[max_length = 100]
-      owner -> Varchar,
+      owner_name -> Varchar,
+      #[max_length = 400]
+      owner_icon -> Varchar,
       created_at -> Timestamp,
       updated_at -> Timestamp,
   }

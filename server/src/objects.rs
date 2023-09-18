@@ -1,4 +1,6 @@
-use async_graphql::{Schema, EmptyMutation, EmptySubscription};
+use async_graphql::{Schema, EmptySubscription};
 
+pub mod object;
 pub mod query;
-pub type SimpleQuerySchema = Schema<query::Query, EmptyMutation, EmptySubscription>;
+pub mod mutation;
+pub type QuerySchema = Schema<query::Query, mutation::Mutation, EmptySubscription>;
