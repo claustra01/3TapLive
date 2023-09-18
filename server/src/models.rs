@@ -9,7 +9,8 @@ struct Channel {
     name: String, // uuid
     token: String,
     title: String,
-    owner: String, // display name
+    owner_name: String, // display name
+    owner_icon: String, // image url
     created_at: NaiveDateTime,
     updated_ad: NaiveDateTime,
 }
@@ -19,7 +20,8 @@ struct NewChannel<'a> {
     name: &'a String, // uuid
     token: &'a String,
     title: &'a String,
-    owner: &'a String, // display name
+    owner_name: &'a String, // display name
+    owner_icon: &'a String, // image url
 }
 
 #[derive(SimpleObject, Serialize, Queryable, Selectable, Debug, Clone)]
