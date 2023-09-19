@@ -11,7 +11,6 @@ pub struct Channel {
 
 #[derive(SimpleObject, Debug, Clone)]
 pub struct Comment {
-    pub id: i32, // auto increment
     pub body: String,
     pub channel: String, // uuid
     pub owner: String, // display name
