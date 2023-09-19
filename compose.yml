@@ -13,6 +13,14 @@ services:
       db:
         condition: service_healthy
 
+  token_server:
+    container_name: tyranno-token-server
+    build:
+      context: ./token_server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+
   db:
     container_name: tyranno-db
     image: postgres:14
