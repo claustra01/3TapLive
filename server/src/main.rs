@@ -1,8 +1,9 @@
 use actix_web::{guard, web, web::Data, App, HttpResponse, HttpServer, Result};
 use async_graphql::{http::GraphiQLSource, Schema, EmptySubscription};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
-use objects::{QuerySchema, query::Query, mutation::Mutation};
+use dotenv::dotenv;
 
+use objects::{QuerySchema, query::Query, mutation::Mutation};
 mod objects;
 mod db;
 mod models;
@@ -22,6 +23,7 @@ async fn index_graphiql() -> Result<HttpResponse> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
   // db connection pool
+  dotenv().ok();
   let pool: db::Pool = db::establish_connection();
 
   // schema setup
