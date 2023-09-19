@@ -1,6 +1,5 @@
 FROM rust:slim-buster
 RUN apt update && \
-    apt upgrade && \
     apt install -y \
       libpq-dev \
       default-libmysqlclient-dev \

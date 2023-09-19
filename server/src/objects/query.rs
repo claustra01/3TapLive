@@ -38,4 +38,18 @@ impl Query {
     Ok(channels_data)
   }
 
+  async fn delete_channel<'ctx>(
+    &self,
+    ctx: &async_graphql::Context<'ctx>,
+    name: String,
+  ) -> Result<String> {
+
+    // delete channel data list
+    let conn = &mut ctx.data_unchecked::<db::Pool>().get().unwrap();
+    diesel::delete(schema::channels::dsl::channels.filter(schema::channels::dsl::name.eq(name)))
+      .execute(conn)?;
+
+    Ok("ok".to_string())
+  }
+
 }

@@ -37,8 +37,7 @@ impl Mutation {
     };
     diesel::insert_into(schema::channels::dsl::channels)
       .values(&new_channel)
-      .execute(conn)
-      .with_context(|| "Failed to create new chennel")?;
+      .execute(conn)?;
 
     // return new channel data
     let channel_data = gql_objects::Channel {
