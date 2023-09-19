@@ -37,7 +37,6 @@ func getToken(c echo.Context) error {
 	}
 	// return token
 	return c.JSON(200, map[string]string{
-		"name":  channelName,
 		"token": token,
 	})
 }
