@@ -1,6 +1,6 @@
 use async_graphql::Object;
 use anyhow::Result;
-use diesel::RunQueryDsl;
+use diesel::{QueryDsl, RunQueryDsl, ExpressionMethods};
 
 pub struct Query;
 
@@ -20,6 +20,7 @@ impl Query {
     // get channel data list
     let conn = &mut ctx.data_unchecked::<db::Pool>().get().unwrap();
     let all_channels: Vec<models::Channel> = schema::channels::dsl::channels
+      .order(schema::channels::dsl::created_at.desc()) 
       .load::<models::Channel>(conn)?;
     
     // shape channel data
