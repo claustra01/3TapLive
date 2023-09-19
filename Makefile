@@ -19,5 +19,5 @@ deploy:
 
 deploy-token:
 	docker build -t tyranno-token-server ./token_server
-	docker tag tyranno-token-server tyranno.azurecr.io/token_server
-	docker push tyranno.azurecr.io/token_server
+	docker tag tyranno-token-server tyranno.azurecr.io/token-server
+	docker push tyranno.azurecr.io/token-server

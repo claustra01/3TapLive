@@ -4,4 +4,4 @@
 - `make restart`でビルドして再起動
 - `make migration`でDBマイグレーションを実行
 - `make deploy`でAzureにデプロイ
-- `make deploy-token`でトークン発行サーバーをデプロイ
+- `make deploy-token`でトークン生成サーバーをデプロイ
