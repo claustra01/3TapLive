@@ -24,7 +24,7 @@ impl Mutation {
 
     // generate channel name and token
     let name = Uuid::new_v4().to_string();
-    let token = token::get_token(name.clone())?;
+    let token = token::get_token(name.clone()).await?;
 
     // create channel recode
     let conn = &mut ctx.data_unchecked::<db::Pool>().get().unwrap();
