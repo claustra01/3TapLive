@@ -51,17 +51,4 @@ impl Mutation {
     Ok(channel_data)
   }
 
-  async fn get_channel_list<'ctx>(
-    &self,
-    ctx: &async_graphql::Context<'ctx>,
-  ) -> Result<Vec<gql_objects::Channel>> {
-
-    // get channel data list
-    let conn = &mut ctx.data_unchecked::<db::Pool>().get().unwrap();
-    let all_users: Vec<models::Channel> = schema::channels::dsl::channels
-      .load::<models::Channel>(conn)?;
-    
-    Ok([].to_vec())
-  }
-
 }
