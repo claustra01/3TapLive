@@ -1,14 +1,13 @@
 use async_graphql::Object;
 use anyhow::{Result, Context};
 use diesel::RunQueryDsl;
-use diesel::insert_into;
 use uuid::Uuid;
 
 use crate::db;
 use crate::models;
 use crate::token;
-use crate::objects::object;
-use crate::schema::*;
+use crate::objects::gql_objects;
+use crate::schema;
 
 pub struct Mutation;
 
@@ -21,7 +20,7 @@ impl Mutation {
     title: String,
     owner_name: String,
     owner_icon: String
-  ) -> Result<object::Channel> {
+  ) -> Result<gql_objects::Channel> {
 
     // generate channel name and token
     let name = Uuid::new_v4().to_string();
@@ -36,13 +35,13 @@ impl Mutation {
       owner_name: &owner_name,
       owner_icon: &owner_icon,
     };
-    insert_into(channels::dsl::channels)
+    diesel::insert_into(schema::channels::dsl::channels)
       .values(&new_channel)
       .execute(conn)
       .with_context(|| "Failed to create new chennel")?;
 
     // return new channel data
-    let channel_data = object::Channel {
+    let channel_data = gql_objects::Channel {
       name,
       token,
       title,
