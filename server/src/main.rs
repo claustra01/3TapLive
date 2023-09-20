@@ -2,6 +2,8 @@ use actix_web::{guard, web, web::Data, App, HttpRequest, HttpResponse, HttpServe
 use async_graphql::{http::GraphiQLSource, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse, GraphQLSubscription};
 use dotenv::dotenv;
+use once_cell::sync::OnceCell;
+use tokio::sync::{mpsc::UnboundedReceiver, Mutex};
 
 use objects::{QuerySchema, query::Query, mutation::Mutation, subscription::Subscription};
 mod objects;
@@ -9,6 +11,8 @@ mod db;
 mod models;
 mod token;
 mod schema;
+
+static RECEIVER: OnceCell<Mutex<UnboundedReceiver<objects::gql_objects::Comment>>> = OnceCell::new();
 
 async fn index(schema: web::Data<QuerySchema>, req: GraphQLRequest) -> GraphQLResponse {
   schema.execute(req.into_inner()).await.into()
@@ -34,9 +38,14 @@ async fn main() -> std::io::Result<()> {
   dotenv().ok();
   let pool: db::Pool = db::establish_connection();
 
+  // subscription reciever
+  let (cmt, rx) = tokio::sync::mpsc::unbounded_channel::<objects::gql_objects::Comment>();
+  RECEIVER.set(Mutex::new(rx)).unwrap();
+
   // schema setup
   let schema = Schema::build(Query, Mutation, Subscription)
     .data(pool.clone())
+    .data(cmt)
     .finish();
 
   // run server
