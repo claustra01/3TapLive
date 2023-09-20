@@ -1,6 +1,7 @@
 use async_graphql::Object;
-use anyhow::{Result, Context};
+use anyhow::Result;
 use diesel::RunQueryDsl;
+use tokio::sync::mpsc::UnboundedSender;
 use uuid::Uuid;
 
 use crate::db;
@@ -46,8 +47,42 @@ impl Mutation {
       title,
       owner_name,
       owner_icon,
-    };
+    };    
     Ok(channel_data)
+  }
+
+  async fn create_comment<'ctx>(
+    &self,
+    ctx: &async_graphql::Context<'ctx>,
+    body: String,
+    channel: String,
+    owner: String,
+  ) -> Result<gql_objects::Comment> {
+
+    // create comment recode
+    let conn = &mut ctx.data_unchecked::<db::Pool>().get().unwrap();
+    let new_comment = models::NewComment {
+      body: &body,
+      channel: &channel,
+      owner: &owner,
+    };
+    diesel::insert_into(schema::comments::dsl::comments)
+      .values(&new_comment)
+      .execute(conn)?;
+    
+    // create new comment data
+    let comment_data = gql_objects::Comment {
+      body,
+      channel,
+      owner,
+    };
+
+    // push to subscription
+    let cmt = ctx.data_unchecked::<UnboundedSender<gql_objects::Comment>>();
+    cmt.send(comment_data.clone()).unwrap();
+
+    // return new comment data
+    Ok(comment_data)
   }
 
 }

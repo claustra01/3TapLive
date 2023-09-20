@@ -11,7 +11,7 @@ CREATE TABLE "channels" (
 );
 
 CREATE TABLE "comments" (
-  "id" integer PRIMARY KEY,
+  "id" serial PRIMARY KEY,
   "body" varchar(400) NOT NULL,
   "channel" varchar(100) NOT NULL,
   "owner" varchar(100) NOT NULL,
